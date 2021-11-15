@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\CoolMvcTemplate.Data.Models\CoolMvcTemplate.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Services\CoolMvcTemplate.Services.Mapping\CoolMvcTemplate.Services.Mapping.csproj" />
+  </ItemGroup>
+
 </Project>
