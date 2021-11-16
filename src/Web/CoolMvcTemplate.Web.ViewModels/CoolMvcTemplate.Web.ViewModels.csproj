@@ -11,4 +11,8 @@
     <ProjectReference Include="..\..\Services\CoolMvcTemplate.Services.Mapping\CoolMvcTemplate.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Administration\Dashboard\" />
+  </ItemGroup>
+
 </Project>
