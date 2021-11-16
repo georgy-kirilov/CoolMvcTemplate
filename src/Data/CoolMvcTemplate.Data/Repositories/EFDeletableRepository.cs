@@ -5,10 +5,10 @@
     using CoolMvcTemplate.Data.Common.Models;
     using CoolMvcTemplate.Data.Common.Repositories;
 
-    public class EFDeletableEntityRepository<TEntity> : EFRepository<TEntity>, IDeletableRepository<TEntity> 
+    public class EFDeletableRepository<TEntity> : EFRepository<TEntity>, IDeletableRepository<TEntity> 
         where TEntity : class, IDeletable
     {
-        public EFDeletableEntityRepository(AppDbContext context) : base(context)
+        public EFDeletableRepository(AppDbContext context) : base(context)
         {
         }
 

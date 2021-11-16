@@ -1,9 +1,11 @@
-﻿using CoolMvcTemplate.Web.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
-namespace CoolMvcTemplate.Web.Controllers
+﻿namespace CoolMvcTemplate.Web.Controllers
 {
+    using System.Diagnostics;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using CoolMvcTemplate.Web.ViewModels;
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

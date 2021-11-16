@@ -36,4 +36,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Administration\Controllers\" />
+    <Folder Include="Areas\Administration\Views\Dashboard\" />
+  </ItemGroup>
+
 </Project>
