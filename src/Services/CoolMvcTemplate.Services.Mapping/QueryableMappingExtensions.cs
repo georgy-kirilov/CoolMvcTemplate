@@ -1,7 +1,5 @@
 ﻿namespace CoolMvcTemplate.Services.Mapping
 {
-    using System;
-    using System.Linq;
     using System.Linq.Expressions;
 
     using AutoMapper.QueryableExtensions;
