@@ -11,7 +11,7 @@
     public class EFDeletableRepository<TEntity> : EFRepository<TEntity>, IDeletableRepository<TEntity>
         where TEntity : class, IDeletableEntity
     {
-        public EFDeletableRepository(ApplicationDbContext context)
+        public EFDeletableRepository(AppDbContext context)
             : base(context)
         {
         }

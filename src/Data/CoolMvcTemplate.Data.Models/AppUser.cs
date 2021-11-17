@@ -8,9 +8,9 @@ namespace CoolMvcTemplate.Data.Models
 
     using Microsoft.AspNetCore.Identity;
 
-    public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
+    public class AppUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
-        public ApplicationUser()
+        public AppUser()
         {
             this.Id = Guid.NewGuid().ToString();
             this.Roles = new HashSet<IdentityUserRole<string>>();

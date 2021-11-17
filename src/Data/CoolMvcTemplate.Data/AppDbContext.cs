@@ -12,14 +12,14 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class AppDbContext : IdentityDbContext<AppUser, AppRole, string>
     {
         private static readonly MethodInfo SetIsDeletedQueryFilterMethod =
-            typeof(ApplicationDbContext).GetMethod(
+            typeof(AppDbContext).GetMethod(
                 nameof(SetIsDeletedQueryFilter),
                 BindingFlags.NonPublic | BindingFlags.Static);
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }

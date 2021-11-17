@@ -7,14 +7,14 @@ namespace CoolMvcTemplate.Data.Models
 
     using Microsoft.AspNetCore.Identity;
 
-    public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
+    public class AppRole : IdentityRole, IAuditInfo, IDeletableEntity
     {
-        public ApplicationRole()
+        public AppRole()
             : this(null)
         {
         }
 
-        public ApplicationRole(string name)
+        public AppRole(string name)
             : base(name)
         {
             this.Id = Guid.NewGuid().ToString();
