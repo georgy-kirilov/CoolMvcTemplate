@@ -5,16 +5,15 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
+
     using CoolMvcTemplate.Data;
     using CoolMvcTemplate.Data.Common;
     using CoolMvcTemplate.Data.Common.Repositories;
     using CoolMvcTemplate.Data.Models;
     using CoolMvcTemplate.Data.Repositories;
     using CoolMvcTemplate.Data.Seeding;
-    using CoolMvcTemplate.Services.Data;
     using CoolMvcTemplate.Services.Messaging;
-
-    using CommandLine;
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -26,6 +25,7 @@
         public static int Main(string[] args)
         {
             Console.WriteLine($"{typeof(Program).Namespace} ({string.Join(" ", args)}) starts working...");
+
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider(true);
@@ -52,9 +52,6 @@
         {
             var sw = Stopwatch.StartNew();
 
-            var settingsService = serviceProvider.GetService<ISettingsService>();
-            Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
-
             Console.WriteLine(sw.Elapsed);
             return await Task.FromResult(0);
         }
@@ -79,9 +76,7 @@
             services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
-            // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
     }
 }
