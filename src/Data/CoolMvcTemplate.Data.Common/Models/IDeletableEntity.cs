@@ -1,6 +1,8 @@
 ﻿namespace CoolMvcTemplate.Data.Common.Models
 {
-    public interface IDeletable
+    using System;
+
+    public interface IDeletableEntity
     {
         bool IsDeleted { get; set; }
 

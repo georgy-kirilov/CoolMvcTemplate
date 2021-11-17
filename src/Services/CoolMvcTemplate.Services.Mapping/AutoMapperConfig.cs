@@ -1,5 +1,8 @@
 ﻿namespace CoolMvcTemplate.Services.Mapping
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     using AutoMapper;
@@ -9,7 +12,7 @@
     {
         private static bool initialized;
 
-        public static IMapper? MapperInstance { get; set; }
+        public static IMapper MapperInstance { get; set; }
 
         public static void RegisterMappings(params Assembly[] assemblies)
         {
@@ -23,26 +26,28 @@
             var types = assemblies.SelectMany(a => a.GetExportedTypes()).ToList();
 
             var config = new MapperConfigurationExpression();
-
-            config.CreateProfile("ReflectionProfile",
+            config.CreateProfile(
+                "ReflectionProfile",
                 configuration =>
                 {
+                    // IMapFrom<>
                     foreach (var map in GetFromMaps(types))
                     {
                         configuration.CreateMap(map.Source, map.Destination);
                     }
 
+                    // IMapTo<>
                     foreach (var map in GetToMaps(types))
                     {
                         configuration.CreateMap(map.Source, map.Destination);
                     }
 
+                    // IHaveCustomMappings
                     foreach (var map in GetCustomMappings(types))
                     {
                         map.CreateMappings(configuration);
                     }
                 });
-
             MapperInstance = new Mapper(new MapperConfiguration(config));
         }
 
@@ -87,16 +92,16 @@
                              where typeof(IHaveCustomMappings).GetTypeInfo().IsAssignableFrom(t) &&
                                    !t.GetTypeInfo().IsAbstract &&
                                    !t.GetTypeInfo().IsInterface
-                             select (IHaveCustomMappings?) Activator.CreateInstance(t);
+                             select (IHaveCustomMappings)Activator.CreateInstance(t);
 
             return customMaps;
         }
 
         private class TypesMap
         {
-            public Type? Source { get; set; }
+            public Type Source { get; set; }
 
-            public Type? Destination { get; set; }
+            public Type Destination { get; set; }
         }
     }
 }

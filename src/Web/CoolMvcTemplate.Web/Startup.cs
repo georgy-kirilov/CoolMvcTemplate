@@ -2,18 +2,25 @@
 {
     using System.Reflection;
 
+    using CoolMvcTemplate.Data;
+    using CoolMvcTemplate.Data.Common;
+    using CoolMvcTemplate.Data.Common.Repositories;
+    using CoolMvcTemplate.Data.Models;
+    using CoolMvcTemplate.Data.Repositories;
+    using CoolMvcTemplate.Data.Seeding;
+    using CoolMvcTemplate.Services.Data;
+    using CoolMvcTemplate.Services.Mapping;
+    using CoolMvcTemplate.Services.Messaging;
+    using CoolMvcTemplate.Web.ViewModels;
+
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-
-    using CoolMvcTemplate.Data;
-    using CoolMvcTemplate.Data.Models;
-    using CoolMvcTemplate.Data.Common;
-    using CoolMvcTemplate.Data.Seeding;
-    using CoolMvcTemplate.Web.ViewModels;
-    using CoolMvcTemplate.Services.Mapping;
-    using CoolMvcTemplate.Data.Repositories;
-    using CoolMvcTemplate.Services.Messaging;
-    using CoolMvcTemplate.Data.Common.Repositories;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {
@@ -24,52 +31,53 @@
             this.configuration = configuration;
         }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
-            services
-                .AddDefaultIdentity<AppUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<AppRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
+                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<CookiePolicyOptions>(
                 options =>
-                {
-                    options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.None;
-                });
+                    {
+                        options.CheckConsentNeeded = context => true;
+                        options.MinimumSameSitePolicy = SameSiteMode.None;
+                    });
 
-            services
-                .AddControllersWithViews(
-                    options =>
+            services.AddControllersWithViews(
+                options =>
                     {
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                    })
-                .AddRazorRuntimeCompilation();
-
+                    }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddSingleton(configuration);
+            services.AddSingleton(this.configuration);
 
-            services.AddScoped(typeof(IDeletableRepository<>), typeof(EFDeletableRepository<>));
-            services.AddScoped(typeof(IRepository<>), typeof(EFRepository<>));
+            // Data repositories
+            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
+            // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<ISettingsService, SettingsService>();
         }
 
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
+            // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 dbContext.Database.Migrate();
-                new AppDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
             }
 
             if (env.IsDevelopment())
@@ -94,11 +102,11 @@
 
             app.UseEndpoints(
                 endpoints =>
-                {
-                    endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapRazorPages();
-                });
+                    {
+                        endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                        endpoints.MapRazorPages();
+                    });
         }
     }
 }

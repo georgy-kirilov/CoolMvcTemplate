@@ -1,14 +1,18 @@
 ﻿namespace CoolMvcTemplate.Data.Repositories
 {
-    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Linq;
 
     using CoolMvcTemplate.Data.Common.Models;
     using CoolMvcTemplate.Data.Common.Repositories;
 
-    public class EFDeletableRepository<TEntity> : EFRepository<TEntity>, IDeletableRepository<TEntity> 
-        where TEntity : class, IDeletable
+    using Microsoft.EntityFrameworkCore;
+
+    public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
+        where TEntity : class, IDeletableEntity
     {
-        public EFDeletableRepository(AppDbContext context) : base(context)
+        public EfDeletableEntityRepository(ApplicationDbContext context)
+            : base(context)
         {
         }
 
@@ -26,14 +30,14 @@
         {
             entity.IsDeleted = false;
             entity.DeletedOn = null;
-            Update(entity);
+            this.Update(entity);
         }
 
         public override void Delete(TEntity entity)
         {
             entity.IsDeleted = true;
             entity.DeletedOn = DateTime.UtcNow;
-            Update(entity);
+            this.Update(entity);
         }
     }
 }

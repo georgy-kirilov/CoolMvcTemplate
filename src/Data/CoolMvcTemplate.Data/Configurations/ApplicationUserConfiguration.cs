@@ -1,13 +1,12 @@
 ﻿namespace CoolMvcTemplate.Data.Configurations
 {
+    using CoolMvcTemplate.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    using CoolMvcTemplate.Data.Models;
-
-    public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
+    public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
-        public void Configure(EntityTypeBuilder<AppUser> appUser)
+        public void Configure(EntityTypeBuilder<ApplicationUser> appUser)
         {
             appUser
                 .HasMany(e => e.Claims)

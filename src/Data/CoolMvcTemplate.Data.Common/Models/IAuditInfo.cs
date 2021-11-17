@@ -1,6 +1,8 @@
 ﻿namespace CoolMvcTemplate.Data.Common.Models
 {
-    public interface IAuditable
+    using System;
+
+    public interface IAuditInfo
     {
         DateTime CreatedOn { get; set; }
 

@@ -1,46 +1,50 @@
 ﻿namespace CoolMvcTemplate.Data.Repositories
 {
-    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     using CoolMvcTemplate.Data.Common.Repositories;
 
-    public class EFRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    using Microsoft.EntityFrameworkCore;
+
+    public class EfRepository<TEntity> : IRepository<TEntity>
+        where TEntity : class
     {
-        public EFRepository(AppDbContext context)
+        public EfRepository(ApplicationDbContext context)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            DbSet = Context.Set<TEntity>();
+            this.Context = context ?? throw new ArgumentNullException(nameof(context));
+            this.DbSet = this.Context.Set<TEntity>();
         }
 
         protected DbSet<TEntity> DbSet { get; set; }
 
-        protected AppDbContext Context { get; set; }
+        protected ApplicationDbContext Context { get; set; }
 
-        public virtual IQueryable<TEntity> All() => DbSet;
+        public virtual IQueryable<TEntity> All() => this.DbSet;
 
-        public virtual IQueryable<TEntity> AllAsNoTracking() => DbSet.AsNoTracking();
+        public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking();
 
-        public virtual Task AddAsync(TEntity entity) => DbSet.AddAsync(entity).AsTask();
+        public virtual Task AddAsync(TEntity entity) => this.DbSet.AddAsync(entity).AsTask();
 
         public virtual void Update(TEntity entity)
         {
-            var entry = Context.Entry(entity);
-
+            var entry = this.Context.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
-                DbSet.Attach(entity);
+                this.DbSet.Attach(entity);
             }
 
             entry.State = EntityState.Modified;
         }
 
-        public virtual void Delete(TEntity entity) => DbSet.Remove(entity);
+        public virtual void Delete(TEntity entity) => this.DbSet.Remove(entity);
 
-        public Task<int> SaveChangesAsync() => Context.SaveChangesAsync();
+        public Task<int> SaveChangesAsync() => this.Context.SaveChangesAsync();
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -48,7 +52,7 @@
         {
             if (disposing)
             {
-                Context?.Dispose();
+                this.Context?.Dispose();
             }
         }
     }

@@ -3,27 +3,27 @@
     using System;
     using System.Threading.Tasks;
 
+    using CoolMvcTemplate.Data.Common;
+
     using Microsoft.EntityFrameworkCore;
 
-    using CoolMvcTemplate.Data.Common;
-    
     public class DbQueryRunner : IDbQueryRunner
     {
-        public DbQueryRunner(AppDbContext context)
+        public DbQueryRunner(ApplicationDbContext context)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            this.Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public AppDbContext Context { get; set; }
+        public ApplicationDbContext Context { get; set; }
 
         public Task RunQueryAsync(string query, params object[] parameters)
         {
-            return Context.Database.ExecuteSqlRawAsync(query, parameters);
+            return this.Context.Database.ExecuteSqlRawAsync(query, parameters);
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -31,7 +31,7 @@
         {
             if (disposing)
             {
-                Context?.Dispose();
+                this.Context?.Dispose();
             }
         }
     }

@@ -1,7 +1,10 @@
 ﻿namespace CoolMvcTemplate.Data.Seeding
 {
+    using System;
+    using System.Threading.Tasks;
+
     public interface ISeeder
     {
-        Task SeedAsync(AppDbContext dbContext, IServiceProvider serviceProvider);
+        Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider);
     }
 }
