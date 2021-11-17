@@ -1,5 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace CoolMvcTemplate.Data.Models
+﻿namespace CoolMvcTemplate.Data.Models
 {
     using System;
 
@@ -7,15 +6,13 @@ namespace CoolMvcTemplate.Data.Models
 
     using Microsoft.AspNetCore.Identity;
 
-    public class AppRole : IdentityRole, IAuditInfo, IDeletableEntity
+    public class AppRole : IdentityRole, IAuditable, IDeletable
     {
-        public AppRole()
-            : this(null)
+        public AppRole() : this(null)
         {
         }
 
-        public AppRole(string name)
-            : base(name)
+        public AppRole(string name) : base(name)
         {
             this.Id = Guid.NewGuid().ToString();
         }

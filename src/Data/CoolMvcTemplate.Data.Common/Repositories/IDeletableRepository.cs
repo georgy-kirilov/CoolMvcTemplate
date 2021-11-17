@@ -5,7 +5,7 @@
     using CoolMvcTemplate.Data.Common.Models;
 
     public interface IDeletableRepository<TEntity> : IRepository<TEntity>
-        where TEntity : class, IDeletableEntity
+        where TEntity : class, IDeletable
     {
         IQueryable<TEntity> AllWithDeleted();
 

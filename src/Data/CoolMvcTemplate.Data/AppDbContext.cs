@@ -24,8 +24,6 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
-
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -47,8 +45,9 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // Needed for Identity models configuration
             base.OnModelCreating(builder);
+
+            RenameDefaultIdentityModels(builder);
 
             this.ConfigureUserIdentityRelations(builder);
 
@@ -56,18 +55,18 @@
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
 
-            // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes
-                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
+                .Where(et => et.ClrType != null && typeof(IDeletable).IsAssignableFrom(et.ClrType));
+
             foreach (var deletableEntityType in deletableEntityTypes)
             {
                 var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
                 method.Invoke(null, new object[] { builder });
             }
 
-            // Disable cascade delete
             var foreignKeys = entityTypes
                 .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
+
             foreach (var foreignKey in foreignKeys)
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
@@ -75,12 +74,28 @@
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
-            where T : class, IDeletableEntity
+            where T : class, IDeletable
         {
             builder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
         }
 
-        // Applies configurations
+        private static void RenameDefaultIdentityModels(ModelBuilder builder)
+        {
+            builder.Entity<AppUser>(entity => entity.ToTable("Users"));
+
+            builder.Entity<AppRole>(entity => entity.ToTable("Roles"));
+
+            builder.Entity<IdentityUserRole<string>>(entity => entity.ToTable("UserRoles"));
+
+            builder.Entity<IdentityUserClaim<string>>(entity => entity.ToTable("UserClaims"));
+
+            builder.Entity<IdentityUserLogin<string>>(entity => entity.ToTable("UserLogins"));
+
+            builder.Entity<IdentityRoleClaim<string>>(entity => entity.ToTable("RoleClaims"));
+
+            builder.Entity<IdentityUserToken<string>>(entity => entity.ToTable("UserTokens"));
+        }
+
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
              => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
 
@@ -89,12 +104,13 @@
             var changedEntries = this.ChangeTracker
                 .Entries()
                 .Where(e =>
-                    e.Entity is IAuditInfo &&
+                    e.Entity is IAuditable &&
                     (e.State == EntityState.Added || e.State == EntityState.Modified));
 
             foreach (var entry in changedEntries)
             {
-                var entity = (IAuditInfo)entry.Entity;
+                var entity = (IAuditable)entry.Entity;
+
                 if (entry.State == EntityState.Added && entity.CreatedOn == default)
                 {
                     entity.CreatedOn = DateTime.UtcNow;

@@ -1,5 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace CoolMvcTemplate.Data.Models
+﻿namespace CoolMvcTemplate.Data.Models
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +7,7 @@ namespace CoolMvcTemplate.Data.Models
 
     using Microsoft.AspNetCore.Identity;
 
-    public class AppUser : IdentityUser, IAuditInfo, IDeletableEntity
+    public class AppUser : IdentityUser, IAuditable, IDeletable
     {
         public AppUser()
         {
@@ -17,13 +16,10 @@ namespace CoolMvcTemplate.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
-
-        // Audit info
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
 
-        // Deletable entity
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }

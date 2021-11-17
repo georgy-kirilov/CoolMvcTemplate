@@ -30,6 +30,7 @@
         public virtual void Update(TEntity entity)
         {
             var entry = this.Context.Entry(entity);
+
             if (entry.State == EntityState.Detached)
             {
                 this.DbSet.Attach(entity);
