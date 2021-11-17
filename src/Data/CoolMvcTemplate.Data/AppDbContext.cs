@@ -8,7 +8,7 @@
 
     using CoolMvcTemplate.Data.Common.Models;
     using CoolMvcTemplate.Data.Models;
-
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
