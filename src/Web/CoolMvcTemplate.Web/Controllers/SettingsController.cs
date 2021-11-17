@@ -14,9 +14,9 @@
     {
         private readonly ISettingsService settingsService;
 
-        private readonly IDeletableEntityRepository<Setting> repository;
+        private readonly IDeletableRepository<Setting> repository;
 
-        public SettingsController(ISettingsService settingsService, IDeletableEntityRepository<Setting> repository)
+        public SettingsController(ISettingsService settingsService, IDeletableRepository<Setting> repository)
         {
             this.settingsService = settingsService;
             this.repository = repository;

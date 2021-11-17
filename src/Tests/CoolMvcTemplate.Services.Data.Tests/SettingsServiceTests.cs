@@ -20,7 +20,7 @@
         [Fact]
         public void GetCountShouldReturnCorrectNumber()
         {
-            var repository = new Mock<IDeletableEntityRepository<Setting>>();
+            var repository = new Mock<IDeletableRepository<Setting>>();
             repository.Setup(r => r.All()).Returns(new List<Setting>
                                                         {
                                                             new Setting(),
@@ -43,7 +43,7 @@
             dbContext.Settings.Add(new Setting());
             await dbContext.SaveChangesAsync();
 
-            using var repository = new EfDeletableEntityRepository<Setting>(dbContext);
+            using var repository = new EFDeletableRepository<Setting>(dbContext);
             var service = new SettingsService(repository);
             Assert.Equal(3, service.GetCount());
         }

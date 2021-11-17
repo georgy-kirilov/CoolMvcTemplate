@@ -8,10 +8,10 @@
 
     using Microsoft.EntityFrameworkCore;
 
-    public class EfDeletableEntityRepository<TEntity> : EfRepository<TEntity>, IDeletableEntityRepository<TEntity>
+    public class EFDeletableRepository<TEntity> : EFRepository<TEntity>, IDeletableRepository<TEntity>
         where TEntity : class, IDeletableEntity
     {
-        public EfDeletableEntityRepository(ApplicationDbContext context)
+        public EFDeletableRepository(ApplicationDbContext context)
             : base(context)
         {
         }
