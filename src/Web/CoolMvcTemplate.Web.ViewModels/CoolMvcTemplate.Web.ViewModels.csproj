@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -21,6 +22,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\CoolMvcTemplate.Data.Models\CoolMvcTemplate.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\CoolMvcTemplate.Services.Mapping\CoolMvcTemplate.Services.Mapping.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Administration\Dashboard\" />
   </ItemGroup>
 
 </Project>

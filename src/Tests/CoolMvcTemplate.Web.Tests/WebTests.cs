@@ -1,7 +1,6 @@
 ﻿namespace CoolMvcTemplate.Web.Tests
 {
     using System.Net;
-    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc.Testing;
 

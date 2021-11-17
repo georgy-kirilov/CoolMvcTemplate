@@ -1,8 +1,5 @@
 ﻿namespace CoolMvcTemplate.Web.Tests
 {
-    using System;
-    using System.Linq;
-
     using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Hosting.Server.Features;

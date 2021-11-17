@@ -1,8 +1,5 @@
 ﻿namespace CoolMvcTemplate.Web.Tests
 {
-    using System;
-    using System.Linq;
-
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
 
