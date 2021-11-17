@@ -1,18 +1,18 @@
 ﻿namespace CoolMvcTemplate.Data.Models
 {
-    using System;
-
     using CoolMvcTemplate.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
 
     public class AppRole : IdentityRole, IAuditable, IDeletable
     {
-        public AppRole() : this(null)
+        public AppRole()
+            : this(null)
         {
         }
 
-        public AppRole(string name) : base(name)
+        public AppRole(string name)
+            : base(name)
         {
             this.Id = Guid.NewGuid().ToString();
         }

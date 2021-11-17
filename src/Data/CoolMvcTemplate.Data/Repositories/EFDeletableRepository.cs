@@ -1,8 +1,5 @@
 ﻿namespace CoolMvcTemplate.Data.Repositories
 {
-    using System;
-    using System.Linq;
-
     using CoolMvcTemplate.Data.Common.Models;
     using CoolMvcTemplate.Data.Common.Repositories;
 

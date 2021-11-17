@@ -1,7 +1,5 @@
 ﻿namespace CoolMvcTemplate.Data
 {
-    using System.Linq;
-
     using CoolMvcTemplate.Data.Common.Models;
 
     using Microsoft.EntityFrameworkCore;

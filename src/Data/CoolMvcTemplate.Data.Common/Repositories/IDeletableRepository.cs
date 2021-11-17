@@ -1,7 +1,5 @@
 ﻿namespace CoolMvcTemplate.Data.Common.Repositories
 {
-    using System.Linq;
-
     using CoolMvcTemplate.Data.Common.Models;
 
     public interface IDeletableRepository<TEntity> : IRepository<TEntity>

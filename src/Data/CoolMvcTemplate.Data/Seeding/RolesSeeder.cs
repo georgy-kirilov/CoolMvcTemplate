@@ -1,9 +1,5 @@
 ﻿namespace CoolMvcTemplate.Data.Seeding
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using CoolMvcTemplate.Common;
     using CoolMvcTemplate.Data.Models;
 

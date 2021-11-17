@@ -1,13 +1,10 @@
 ﻿namespace CoolMvcTemplate.Data
 {
-    using System;
-    using System.Linq;
     using System.Reflection;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     using CoolMvcTemplate.Data.Common.Models;
     using CoolMvcTemplate.Data.Models;
+
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;

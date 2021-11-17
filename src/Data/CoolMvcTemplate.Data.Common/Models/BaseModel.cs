@@ -1,6 +1,5 @@
 ﻿namespace CoolMvcTemplate.Data.Common.Models
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
     public abstract class BaseModel<TKey> : IAuditable

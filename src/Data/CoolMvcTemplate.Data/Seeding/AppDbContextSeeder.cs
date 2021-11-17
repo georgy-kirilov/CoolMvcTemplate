@@ -1,9 +1,5 @@
 ﻿namespace CoolMvcTemplate.Data.Seeding
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
@@ -25,14 +21,15 @@
 
             var seeders = new List<ISeeder>
             {
-                new RolesSeeder()
+                new RolesSeeder(),
             };
 
             foreach (var seeder in seeders)
             {
                 await seeder.SeedAsync(dbContext, serviceProvider);
                 await dbContext.SaveChangesAsync();
-                logger.LogInformation($"Seeder {seeder.GetType().Name} done.");
+                string message = $"Seeder {seeder.GetType().Name} done.";
+                logger.LogInformation(message);
             }
         }
     }

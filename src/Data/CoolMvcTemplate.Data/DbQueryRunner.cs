@@ -1,8 +1,5 @@
 ﻿namespace CoolMvcTemplate.Data
 {
-    using System;
-    using System.Threading.Tasks;
-
     using CoolMvcTemplate.Data.Common;
 
     using Microsoft.EntityFrameworkCore;

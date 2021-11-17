@@ -1,8 +1,5 @@
 ﻿namespace CoolMvcTemplate.Data.Models
 {
-    using System;
-    using System.Collections.Generic;
-
     using CoolMvcTemplate.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -16,6 +13,7 @@
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }

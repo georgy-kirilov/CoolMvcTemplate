@@ -1,10 +1,11 @@
 ﻿namespace CoolMvcTemplate.Data.Configurations
 {
     using CoolMvcTemplate.Data.Models;
+
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class ApplicationUserConfiguration : IEntityTypeConfiguration<AppUser>
+    public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
     {
         public void Configure(EntityTypeBuilder<AppUser> appUser)
         {
